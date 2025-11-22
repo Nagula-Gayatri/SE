@@ -1,0 +1,168 @@
+Q3. Working with Webhooks to Trigger Builds in Jenkins
+
+Goal: When you push code to GitHub → Jenkins job should automatically start.
+
+STEP 1 — Configure Webhook in GitHub
+1. Open your GitHub repository
+
+Go to:
+ Settings → Webhooks → Add Webhook
+
+2. Enter Jenkins webhook URL
+
+In “Payload URL”, enter:
+
+http://YOUR_JENKINS_PUBLIC_IP:8080/github-webhook/
+
+
+Example:
+
+http://3.111.45.56:8080/github-webhook/
+
+3. Content type
+
+Select:
+
+application/json
+
+4. Select the event
+
+Choose:
+
+Just the push event
+
+5. Click Add Webhook
+
+ Take screenshot:
+Webhook page (showing green tick if successful)
+
+STEP 2 — Configure Jenkins Job
+1. Create a Freestyle project
+
+Go to Jenkins → New Item → Freestyle.
+
+2. Add GitHub Repo URL
+
+Under Source Code Management → Git, paste your repo:
+
+https://github.com/yourname/yourrepo.git
+
+3. Enable Webhook Trigger
+
+Go to:
+
+Build Triggers → tick ➜ GitHub hook trigger for GITScm polling
+
+4. Add a simple build step
+
+Example:
+
+echo "Code received from GitHub"
+
+
+Save the job.
+
+STEP 3 — Test the Auto Trigger
+1. Make a small code change
+
+Edit any file in GitHub → add a space → commit.
+
+2. Jenkins should automatically run a build
+
+ Take screenshot:
+
+Jenkins Build History showing build triggered by GitHub
+
+Jenkins Console Output showing “Started by GitHub push”
+
+ Expected Output (Q3)
+
+✔ Webhook screenshot
+✔ Jenkins job auto trigger screenshot
+✔ Console output screenshot
+
+ Q4. Create EC2 Instance + Deploy Application Using Docker
+
+This is simple — follow these steps.
+
+STEP 1 — Launch EC2 Instance
+
+Go to AWS → EC2 → Launch Instance
+
+Name: ubuntu-deploy
+
+AMI: Ubuntu 22.04
+
+Instance: t2.micro
+
+Key pair: Select/create
+
+Security group:
+
+Allow SSH (22)
+
+Allow HTTP (80)
+
+Allow Custom TCP 3000 (if needed)
+
+Launch
+
+ Take screenshot:
+
+EC2 instance running with Public IP visible
+
+STEP 2 — Connect to EC2
+
+Use SSH:
+
+ssh -i keyfile.pem ubuntu@PUBLIC_IP
+
+STEP 3 — Install Docker
+
+Run:
+
+sudo apt update
+sudo apt install docker.io -y
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker ubuntu
+
+
+Logout and login again.
+
+STEP 4 — Clone Your GitHub Application
+
+Example:
+
+git clone https://github.com/yourname/yourapp.git
+cd yourapp
+
+STEP 5 — Write Dockerfile
+
+Example simple Dockerfile for Node.js:
+
+FROM node:18
+WORKDIR /app
+COPY . .
+RUN npm install
+EXPOSE 3000
+CMD ["npm", "start"]
+
+
+Save as: Dockerfile
+
+STEP 6 — Build Docker Image
+docker build -t myapp .
+
+STEP 7 — Run the Container
+docker run -d -p 80:3000 myapp
+
+
+Now open:
+
+http://YOUR_EC2_PUBLIC_IP
+
+
+ Screenshot:
+
+Application running in browser using EC2 public IP
