@@ -1,4 +1,4 @@
-Step 2: Kubernetes with Minikube (Standalone)
+Kubernetes with Minikube (Standalone)
 Pre-requisites
 
 Docker must be running (you already confirmed this).
@@ -8,7 +8,7 @@ Minikube installed (or download from Minikube
 
 A Docker image ready (either your own or nginx for testing).
 
-1️⃣ Start Minikube
+Start Minikube
 
 Open PowerShell and run:
 
@@ -21,14 +21,14 @@ Check status:
 
 minikube status
 
-2️⃣ Check deployments
+Check deployments
 kubectl get deployments
 kubectl get pods
 
 
 If you don’t have any deployments yet, it’s fine — we’ll create one.
 
-3️⃣ Create a deployment
+Create a deployment
 
 Use your Docker image from Docker Hub (or just use nginx for testing):
 
@@ -40,7 +40,7 @@ Check pods:
 kubectl get pods
 kubectl describe pods
 
-4️⃣ Expose deployment
+Expose deployment
 
 Expose it as a NodePort to access in browser:
 
@@ -59,10 +59,11 @@ minikube service mynginx
 
 Your nginx page should open.
 
-✅ At the end of this step
+At the end of this step
 
 Minikube running
 
 Deployment created and exposed
 
 Pod is running and accessible in browser
+
