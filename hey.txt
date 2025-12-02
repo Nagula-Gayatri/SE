@@ -1,37 +1,32 @@
-Kubernetes with Minikube (Standalone)
-Docker must be running (you already confirmed this).
-A Docker image ready (either your own or nginx for testing).
+In Windows CMD or PowerShell:
+ssh -i myKey.pem ec2-user@44.192.91.8
 
-Start Minikube
-Open PowerShell and run:
-minikube start --driver=docker
-Wait until Minikube starts.
+Now your prompt should change to something like:
+[ec2-user@ip-172-31-75-177 ~]$
 
-Check status:
-minikube status
+Only after this continue.
+Clone your repo (on EC2)
+git clone <your-git-url>
 
-Check deployments
-kubectl get deployments
-kubectl get pods
+Move into the repo folder
+cd yourrepo
 
-Create a deployment
-Use your Docker image from Docker Hub (or just use nginx for testing):
-kubectl create deployment mynginx --image=nginx
+Create Dockerfile (on EC2)
+nano Dockerfile
 
-Check pods:
-kubectl get pods
-kubectl describe pods
+Paste:
+FROM nginx
+COPY index.html /usr/share/nginx/html
 
-Expose deployment
-Expose it as a NodePort to access in browser:
-kubectl expose deployment mynginx --type=NodePort --port=80 --target-port=80
+Save:
+CTRL + O → ENTER
+CTRL + X
 
-Check the service:
-kubectl get services
+Build Docker image
+sudo docker build -t mywebapp .
 
-Access in browser via Minikube:
-minikube service mynginx
-Your nginx page should open.
+Run container
+sudo docker run -d -p 80:80 mywebapp
 
-
-
+Open the website
+http://44.192.91.8
